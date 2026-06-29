@@ -173,9 +173,6 @@ export default function PrevisoesApacPage() {
           >
             Previsões da APAC
           </h1>
-          <p style={{ margin: '4px 0 0', color: '#6B7280', fontSize: 12.5 }}>
-            Dados em tempo real de {BASE}
-          </p>
         </div>
 
         <div style={{ display: 'flex', alignItems: 'center', gap: 8, flexWrap: 'wrap', justifyContent: 'flex-end' }}>
@@ -278,7 +275,7 @@ export default function PrevisoesApacPage() {
                 Município
               </p>
               <h2 style={{ margin: '3px 0 0', color: '#111827', fontSize: 22, fontFamily: fontPoppins }}>
-                {resumoAtual.municipio}
+                {municipioSelecionado?.nome || resumoAtual.municipio}
               </h2>
               <p style={{ margin: '4px 0 0', color: '#6B7280', fontSize: 12.5 }}>
                 {formatarDataCurta(resumoAtual.data)} às {formatarHora(resumoAtual.data)}
