@@ -24,7 +24,7 @@ export default function Painel() {
       .catch(err => console.error('Erro ao carregar ocorrências:', err))
 
     const connection = new signalR.HubConnectionBuilder()
-      .withUrl('http://localhost:5019/hubs/emergency')
+      .withUrl(`${import.meta.env.VITE_API_URL || 'http://localhost:5019'}/hubs/emergency`)
       .withAutomaticReconnect()
       .build()
 

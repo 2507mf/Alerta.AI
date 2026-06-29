@@ -212,7 +212,7 @@ export default function ChamadoModal({ chamado, onClose }) {
                 {chamado.anexos && chamado.anexos.length > 0 ? (
                   chamado.anexos.map((url, i) => {
                     const isVideo = url.endsWith('.mp4');
-                    const fullUrl = `http://localhost:5019${url}`;
+                    const fullUrl = `${import.meta.env.VITE_API_URL || 'http://localhost:5019'}${url}`;
                     return (
                       <a href={fullUrl} target="_blank" rel="noopener noreferrer" key={i} style={{ display: 'block', textDecoration: 'none' }}>
                         {isVideo ? (

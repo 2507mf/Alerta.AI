@@ -1,5 +1,5 @@
 const SESSION_KEY = 'alertaai_session'
-const BASE_URL = 'http://localhost:5019'
+const BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:5019'
 
 async function parseResponse(res, fallbackErro) {
   let body = null
