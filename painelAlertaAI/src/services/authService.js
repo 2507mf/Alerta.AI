@@ -1,5 +1,6 @@
+import { API_URL as BASE_URL, DEMO_MODE } from '../config'
+
 const SESSION_KEY = 'alertaai_session'
-const BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:5019'
 
 async function parseResponse(res, fallbackErro) {
   let body = null
@@ -43,6 +44,10 @@ export async function registrarUsuario(nome, email, senha) {
     return { ok: false, erro: 'A senha não atende aos requisitos de segurança.' }
   }
 
+  if (DEMO_MODE) {
+    return { ok: true }
+  }
+
   const res = await fetch(`${BASE_URL}/api/auth/register`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
@@ -55,6 +60,15 @@ export async function registrarUsuario(nome, email, senha) {
 export async function login(email, senha) {
   if (!emailValido(email)) {
     return { ok: false, erro: 'E-mail ou senha inválidos' }
+  }
+
+  if (DEMO_MODE) {
+    if (!senha || senha.trim().length === 0) {
+      return { ok: false, erro: 'E-mail ou senha inválidos' }
+    }
+    const sessao = { email, nome: 'Operador(a) Defesa Civil' }
+    localStorage.setItem(SESSION_KEY, JSON.stringify(sessao))
+    return { ok: true }
   }
 
   const res = await fetch(`${BASE_URL}/api/auth/login`, {
@@ -93,6 +107,11 @@ export async function alterarSenha(email, senhaAtual, novaSenha) {
     return { ok: false, erro: 'A nova senha não atende aos requisitos de segurança.' }
   }
 
+  if (DEMO_MODE) {
+    logout()
+    return { ok: true }
+  }
+
   const res = await fetch(`${BASE_URL}/api/auth/change-password`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
@@ -111,6 +130,10 @@ export async function solicitarRecuperacao(email) {
     return { ok: false, erro: 'Informe um e-mail válido.' }
   }
 
+  if (DEMO_MODE) {
+    return { ok: true }
+  }
+
   const res = await fetch(`${BASE_URL}/api/auth/forgot-password`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
@@ -122,6 +145,10 @@ export async function solicitarRecuperacao(email) {
 
 export async function validarToken(token) {
   if (!token) return { valido: false }
+
+  if (DEMO_MODE) {
+    return { valido: true }
+  }
 
   const res = await fetch(`${BASE_URL}/api/auth/validate-reset-token`, {
     method: 'POST',
@@ -141,6 +168,10 @@ export async function validarToken(token) {
 export async function redefinirSenha(token, novaSenha) {
   if (!senhaForte(novaSenha)) {
     return { ok: false, erro: 'A nova senha não atende aos requisitos de segurança.' }
+  }
+
+  if (DEMO_MODE) {
+    return { ok: true }
   }
 
   const res = await fetch(`${BASE_URL}/api/auth/reset-password`, {

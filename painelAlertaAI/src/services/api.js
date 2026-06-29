@@ -1,4 +1,5 @@
-const BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:5019'
+import { API_URL as BASE_URL, DEMO_MODE } from '../config'
+import { chamados as chamadosDemo } from '../data/mockData'
 
 const SEVERIDADE_MAP = {
   Alta: 'Crítico',
@@ -74,6 +75,9 @@ export function mapearOcorrencia(o) {
 }
 
 export async function fetchOcorrencias() {
+  if (DEMO_MODE) {
+    return chamadosDemo
+  }
   const res = await fetch(`${BASE_URL}/api/ocorrencias`)
   if (!res.ok) throw new Error(`Erro ao buscar ocorrências: ${res.status}`)
   const data = await res.json()
@@ -81,6 +85,9 @@ export async function fetchOcorrencias() {
 }
 
 export async function resolverOcorrencia(id) {
+  if (DEMO_MODE) {
+    return
+  }
   const res = await fetch(`${BASE_URL}/api/ocorrencias/${id}/resolver`, {
     method: 'PATCH',
   })

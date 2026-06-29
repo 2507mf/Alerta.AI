@@ -2,6 +2,7 @@ import { useEffect } from 'react'
 import { X, MessageCircle } from 'lucide-react'
 import Badge from './ui/Badge'
 import PanoramaAPAC from './PanoramaAPAC'
+import { API_URL } from '../config'
 
 const fp = "'Poppins', sans-serif"
 const fn = "'Nunito Sans', sans-serif"
@@ -212,7 +213,7 @@ export default function ChamadoModal({ chamado, onClose }) {
                 {chamado.anexos && chamado.anexos.length > 0 ? (
                   chamado.anexos.map((url, i) => {
                     const isVideo = url.endsWith('.mp4');
-                    const fullUrl = `${import.meta.env.VITE_API_URL || 'http://localhost:5019'}${url}`;
+                    const fullUrl = `${API_URL}${url}`;
                     return (
                       <a href={fullUrl} target="_blank" rel="noopener noreferrer" key={i} style={{ display: 'block', textDecoration: 'none' }}>
                         {isVideo ? (

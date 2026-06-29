@@ -10,6 +10,7 @@ import ChamadosPage  from './ChamadosPage'
 import PrevisoesApacPage from './PrevisoesApacPage'
 import ChamadoModal  from '../components/ChamadoModal'
 import { fetchOcorrencias, mapearOcorrencia } from '../services/api'
+import { API_URL, DEMO_MODE } from '../config'
 import * as signalR from '@microsoft/signalr'
 
 export default function Painel() {
@@ -23,8 +24,11 @@ export default function Painel() {
       .then(setChamados)
       .catch(err => console.error('Erro ao carregar ocorrências:', err))
 
+    // Em modo demonstração não há backend para conectar via SignalR.
+    if (DEMO_MODE) return
+
     const connection = new signalR.HubConnectionBuilder()
-      .withUrl(`${import.meta.env.VITE_API_URL || 'http://localhost:5019'}/hubs/emergency`)
+      .withUrl(`${API_URL}/hubs/emergency`)
       .withAutomaticReconnect()
       .build()
 
