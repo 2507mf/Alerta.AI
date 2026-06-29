@@ -1,0 +1,12 @@
+{
+  "framework": "vite",
+  "installCommand": "cd painelAlertaAI && npm ci",
+  "buildCommand": "cd painelAlertaAI && npm run build",
+  "outputDirectory": "painelAlertaAI/dist",
+  "rewrites": [
+    {
+      "source": "/(.*)",
+      "destination": "/index.html"
+    }
+  ]
+}
